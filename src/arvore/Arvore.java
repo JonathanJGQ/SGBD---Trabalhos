@@ -40,7 +40,7 @@ public class Arvore {
 		try{
 			while(!noAtual[2].equals("EDAD")){
 				ids = separarRids(noAtual[1]);
-				if( ano <= Integer.parseInt(noAtual[0])){
+				if( ano <= Integer.parseInt(noAtual[0]) || ids.size() == 1){
 					linhaAtual = Files.readAllLines(Paths.get(nomeIndice)).get(ids.get(0) - 1);
 					noAtual = linhaAtual.split(Pattern.quote(","));
 				}
@@ -50,9 +50,12 @@ public class Arvore {
 				}
 			}
 			if(ano == Integer.parseInt(noAtual[0])){
-				int id = Integer.parseInt(noAtual[1].replace("R", ""));
-				linhaAtual = Files.readAllLines(Paths.get(nomeBanco)).get(id - 1);
-				System.out.println(linhaAtual);
+				ids = separarRids(noAtual[1]);
+				for(int i=0;i<ids.size();i++){
+					linhaAtual = Files.readAllLines(Paths.get(nomeBanco)).get(ids.get(i) - 1);
+					linhaAtual = linhaAtual.replace(",", " ");
+					System.out.println(linhaAtual);
+				}
 			}
 			else{
 				System.out.println("Colheita não encontrada!");

@@ -15,7 +15,8 @@ public class CriarDados {
 							"V3,P3,Syrah,2009,Franca" + newLine +
 							"V4,P4,Malbec,2010,Franca" + newLine +
 							"V5,P5,Bonarda,2012,Italia" + newLine +
-							"V6,P6,Chenin Blanc,2013,Argentina";
+							"V6,P6,Chenin Blanc,2013,Argentina" + newLine + 
+							"V7,P7,Chenin Blanc,2010,Argentina";
 	
 	public void criarArquivos(){
 		criarBanco();
@@ -82,7 +83,7 @@ public class CriarDados {
 				"2006,R1,EDAD" + newLine +
 				"2008,R2,EDAD" + newLine +
 				"2009,R3,EDAD" + newLine +
-				"2010,R4,EDAD" + newLine +
+				"2010,R4R7,EDAD" + newLine +
 				"2012,R5,EDAD" + newLine +
 				"2013,R6,EDAD";
 		
