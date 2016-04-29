@@ -3,6 +3,7 @@ package arvore;
 import java.awt.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,24 +42,24 @@ public class Arvore {
 			while(!noAtual[2].equals("EDAD")){
 				ids = separarRids(noAtual[1]);
 				if( ano <= Integer.parseInt(noAtual[0]) || ids.size() == 1){
-					linhaAtual = Files.readAllLines(Paths.get(nomeIndice)).get(ids.get(0) - 1);
+					linhaAtual = Files.readAllLines(Paths.get(nomeIndice), StandardCharsets.UTF_8).get(ids.get(0) - 1);
 					noAtual = linhaAtual.split(Pattern.quote(","));
 				}
 				else{
-					linhaAtual = Files.readAllLines(Paths.get(nomeIndice)).get(ids.get(1) - 1);
+					linhaAtual = Files.readAllLines(Paths.get(nomeIndice), StandardCharsets.UTF_8).get(ids.get(1) - 1);
 					noAtual = linhaAtual.split(Pattern.quote(","));
 				}
 			}
 			if(ano == Integer.parseInt(noAtual[0])){
 				ids = separarRids(noAtual[1]);
 				for(int i=0;i<ids.size();i++){
-					linhaAtual = Files.readAllLines(Paths.get(nomeBanco)).get(ids.get(i) - 1);
+					linhaAtual = Files.readAllLines(Paths.get(nomeBanco), StandardCharsets.UTF_8).get(ids.get(i) - 1);
 					linhaAtual = linhaAtual.replace(",", " ");
 					System.out.println(linhaAtual);
 				}
 			}
 			else{
-				System.out.println("Colheita não encontrada!");
+				System.out.println("Colheita nï¿½o encontrada!");
 			}
 		}
 		catch(Exception ex){
