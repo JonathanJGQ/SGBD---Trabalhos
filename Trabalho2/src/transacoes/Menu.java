@@ -14,36 +14,46 @@ public class Menu {
 	
 	public void eventos() {
 		
-		int estado = t.getEstado();
+		String estado = t.getEstado();
 		
 		switch (estado) {
 		
-		case 1:
+		case "TR_INICIADA":
 		{
-			System.out.println("\nEstado atual: TR_INICIADA");
+			System.out.println("\nEstado atual da transação " + t.getId() + ": TR_INICIADA");
 
 			System.out.println("\n(1) READ");
 			System.out.println("(2) WRITE");
-			System.out.println("(3) Criar nova transação");
+			System.out.println("(3) TR_Begin");
+			System.out.println("(4) Mudar transação");
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
 			if (opcao == 1) {
-				t.setEstado(Transacao.ATIVA);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.ATIVA)));
 				g.estadoTransacoes();
-				g.imprimir();
-				this.eventos();
+				eventos();
 			}
 			else if (opcao == 2) {
-				t.setEstado(Transacao.ATIVA);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.ATIVA)));
 				g.estadoTransacoes();
-				g.imprimir();
-				this.eventos();
+				eventos();
 			}
 			else if (opcao == 3) {
-				this.novaTransacao();
+				novaTransacao();
+			}
+			else if (opcao == 4) {
+				System.out.print("Informe o id da transação que você deseja: ");
+				String id = new Scanner(System.in).nextLine();
+				String outroId = g.procurarTransacao(id).getId();
+
+				if (g.transacaoExiste(outroId)) {
+					Menu m = new Menu(g, g.procurarTransacao(outroId));
+					m.eventos();
+				}
+				else {
+					System.out.println("Transação desejada não existe");
+				}
 			}
 			else {
 				System.out.println("Opção inválida!");
@@ -52,49 +62,55 @@ public class Menu {
 		}
 		break;
 		
-		case 2:
+		case "ATIVA":
 		{
-			System.out.println("\nEstado atual: ATIVA");
+			System.out.println("\nEstado atual da transação " + t.getId() + ": ATIVA");
 
 			System.out.println("\n(1) READ");
 			System.out.println("(2) WRITE");
 			System.out.println("(3) TR_Terminate");
 			System.out.println("(4) TR_Rollback");
-			System.out.println("(5) Criar nova transação");
+			System.out.println("(5) TR_Begin");
+			System.out.println("(6) Mudar transação");
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
 			if (opcao == 1) {
-				t.setEstado(Transacao.ATIVA);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.ATIVA)));
 				g.estadoTransacoes();
-				g.imprimir();
-				this.eventos();
+				eventos();
 			}
 			else if (opcao == 2) {
-				t.setEstado(Transacao.ATIVA);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.ATIVA)));
 				g.estadoTransacoes();
-				g.imprimir();
-				this.eventos();
+				eventos();
 			}
 			else if (opcao == 3) {
-				t.setEstado(Transacao.PROCESSO_EFETIVACAO);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.PROCESSO_EFETIVACAO)));
 				g.estadoTransacoes();
-				g.imprimir();
-				this.eventos();
+				eventos();
 			}
 			else if (opcao == 4) {
-				t.setEstado(Transacao.PROCESSO_CANCELAMENTO);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.PROCESSO_CANCELAMENTO)));
 				g.estadoTransacoes();
-				g.imprimir();
-				this.eventos();
+				eventos();
 			}
 			else if (opcao == 5) {
 				this.novaTransacao();
 			}
+			else if (opcao == 6) {
+				System.out.print("Informe o id da transação que você deseja: ");
+				String id = new Scanner(System.in).nextLine();
+				String outroId = g.procurarTransacao(id).getId();
+
+				if (g.transacaoExiste(outroId)) {
+					Menu m = new Menu(g, g.procurarTransacao(outroId));
+					m.eventos();
+				}
+				else {
+					System.out.println("Transação desejada não existe");
+				}
+			}
 			else {
 				System.out.println("Opção inválida!");
 			}
@@ -102,26 +118,38 @@ public class Menu {
 		}
 		break;
 		
-		case 3:
+		case "PROCESSO_CANCELAMENTO":
 		{
-			System.out.println("\nEstado atual: PROCESSO_CANCELAMENTO");
+			System.out.println("\nEstado atual da transação " + t.getId() + ": PROCESSO_CANCELAMENTO");
 
 			System.out.println("\n(1) TR_Finish");
-			System.out.println("(2) Criar nova transação");
+			System.out.println("(2) TR_Begin");
+			System.out.println("(3) Mudar transação");
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
 			if (opcao == 1) {
-				t.setEstado(Transacao.TR_FINALIZADA);
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.TR_FINALIZADA)));
 				System.out.println("\nTransação finalizada");
-				g.adicionarVertice(t.getEstado());
 				g.estadoTransacoes();
-				g.imprimir();
 				this.eventos();
 			}
 			else if (opcao == 2) {
 				this.novaTransacao();
 			}
+			else if (opcao == 3) {
+				System.out.print("Informe o id da transação que você deseja: ");
+				String id = new Scanner(System.in).nextLine();
+				String outroId = g.procurarTransacao(id).getId();
+
+				if (g.transacaoExiste(outroId)) {
+					Menu m = new Menu(g, g.procurarTransacao(outroId));
+					m.eventos();
+				}
+				else {
+					System.out.println("Transação desejada não existe");
+				}
+			}
 			else {
 				System.out.println("Opção inválida!");
 			}
@@ -129,33 +157,43 @@ public class Menu {
 		}
 		break;
 		
-		case 4:
+		case "PROCESSO_EFETIVACAO":
 		{			
-			System.out.println("\nEstado atual: PROCESSO_EFETIVACAO");
+			System.out.println("\nEstado atual da transação " + t.getId() + ": PROCESSO_EFETIVACAO");
 
 			System.out.println("\n(1) TR_Rollback");
 			System.out.println("(2) TR_Commit");
-			System.out.println("(3) Criar nova transação");
+			System.out.println("(3) TR_Begin");
+			System.out.println("(4) Mudar transação");
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
 			if (opcao == 1) {
-				t.setEstado(Transacao.PROCESSO_CANCELAMENTO);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.PROCESSO_CANCELAMENTO)));
 				g.estadoTransacoes();
-				g.imprimir();
 				this.eventos();
 			}
 			else if (opcao == 2) {
-				t.setEstado(Transacao.EFETIVADA);
-				g.adicionarVertice(t.getEstado());
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.EFETIVADA)));
 				g.estadoTransacoes();
-				g.imprimir();
 				this.eventos();
 			}
 			else if (opcao == 3) {
 				this.novaTransacao();
 			}
+			else if (opcao == 4) {
+				System.out.print("Informe o id da transação que você deseja: ");
+				String id = new Scanner(System.in).nextLine();
+				String outroId = g.procurarTransacao(id).getId();
+
+				if (g.transacaoExiste(outroId)) {
+					Menu m = new Menu(g, g.procurarTransacao(outroId));
+					m.eventos();
+				}
+				else {
+					System.out.println("Transação desejada não existe");
+				}
+			}
 			else {
 				System.out.println("Opção inválida!");
 			}
@@ -163,26 +201,38 @@ public class Menu {
 		}
 		break;
 		
-		case 5:
+		case "EFETIVADA":
 		{	
-			System.out.println("\nEstado atual: EFETIVADA");
+			System.out.println("\nEstado atual da transação " + t.getId() + ": EFETIVADA");
 
 			System.out.println("\n(1) TR_Finish");
-			System.out.println("(2) Criar nova transação");
+			System.out.println("(2) TR_Begin");
+			System.out.println("(3) Mudar transação");
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
 			if (opcao == 1) {
-				t.setEstado(Transacao.TR_FINALIZADA);
+				t.setEstado(g.vertices.get(g.vertices.indexOf(Grafo.TR_FINALIZADA)));
 				System.out.println("\nTransação finalizada");
-				g.adicionarVertice(t.getEstado());
 				g.estadoTransacoes();
-				g.imprimir();
 				this.eventos();
 			}
 			else if (opcao == 2) {
 				this.novaTransacao();
 			}
+			else if (opcao == 3) {
+				System.out.print("Informe o id da transação que você deseja: ");
+				String id = new Scanner(System.in).nextLine();
+				String outroId = g.procurarTransacao(id).getId();
+
+				if (g.transacaoExiste(outroId)) {
+					Menu m = new Menu(g, g.procurarTransacao(outroId));
+					m.eventos();
+				}
+				else {
+					System.out.println("Transação desejada não existe");
+				}
+			}
 			else {
 				System.out.println("Opção inválida!");
 			}
@@ -190,12 +240,13 @@ public class Menu {
 		}
 		break;
 		
-		case 6:
+		case "TR_FINALIZADA":
 		{
-			System.out.println("\nEstado atual: TR_FINALIZADA");
+			System.out.println("\nEstado atual da transação " + t.getId() + ": TR_FINALIZADA");
 			
-			System.out.println("\n(1) Criar nova transação");
-			System.out.println("(2) Sair");
+			System.out.println("\n(1) TR_Begin");
+			System.out.println("(2) Mudar transação");
+			System.out.println("(3) Sair");
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
@@ -203,6 +254,19 @@ public class Menu {
 				this.novaTransacao();
 			}
 			else if (opcao == 2) {
+				System.out.print("Informe o id da transação que você deseja: ");
+				String id = new Scanner(System.in).nextLine();
+				String outroId = g.procurarTransacao(id).getId();
+
+				if (g.transacaoExiste(outroId)) {
+					Menu m = new Menu(g, g.procurarTransacao(outroId));
+					m.eventos();
+				}
+				else {
+					System.out.println("Transação desejada não existe");
+				}
+			}
+			else if (opcao == 3) {
 				System.exit(0);
 			}
 			else {
@@ -216,9 +280,21 @@ public class Menu {
 	}
 	
 	public void novaTransacao() {
-		Transacao novaT = new Transacao();
-		g.criarTransacao(novaT);
-		Menu m = new Menu(g, novaT);
-		m.eventos();
+		
+		System.out.print("Defina um id para essa transação: ");
+		String novoId = new Scanner(System.in).nextLine();
+		
+		if (g.transacaoExiste(novoId)) {
+			System.out.println("\nTransação já existe");		
+		}
+		else {
+			Transacao novaT = new Transacao(novoId);
+			g.criarTransacao(novaT);
+			g.estadoTransacoes();
+
+			Menu m = new Menu(g, novaT);
+			m.eventos();
+		}
+		
 	}
 }

@@ -6,7 +6,7 @@ public class MainClass {
 
 	public static void main(String[] args) {
 		
-		Grafo g = new Grafo(); // Inicializa grafo vazio		
+		Grafo g = new Grafo(); // Inicializa grafo vazio, sem transações	
 		System.out.println("Grafo vazio criado");
 		
 		System.out.println("\n(1) TR_Begin");
@@ -18,12 +18,20 @@ public class MainClass {
 		
 		case 1:
 		{
-			Transacao t = new Transacao();
-			g.criarTransacao(t);
-			g.adicionarVertice(t.getEstado());
-
-			Menu m = new Menu(g, t);
-			m.eventos();
+			System.out.print("\nDefina um id para essa transação: ");
+			String id = new Scanner(System.in).nextLine();
+			
+			if (!g.transacaoExiste(id)) {
+				Transacao t = new Transacao(id);
+				g.criarTransacao(t);
+				g.estadoTransacoes();
+				
+				Menu m = new Menu(g, t);
+				m.eventos();
+			}
+			else {
+				System.out.println("\nTransação já existe");
+			}
 		}
 		break;
 		
