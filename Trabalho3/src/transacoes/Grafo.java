@@ -41,6 +41,12 @@ public class Grafo {
 		transacoesAtivas();
 	}
 	
+	public void finalizarTransacao(Transacao t){
+		if (transacaoExiste(t.getId())) {
+			transacoes.remove(t);
+		}
+	}
+	
 	public void transacoesAtivas() {
 		System.out.print("Transações ativas: ");
 		for (int i = 0; i < transacoes.size(); i++) {

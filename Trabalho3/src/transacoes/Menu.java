@@ -268,6 +268,7 @@ public class Menu {
 			System.out.println("\n(1) TR_Begin");
 			System.out.println("(2) Mudar transação");
 			System.out.println("(3) Sair");
+			g.finalizarTransacao(t);
 			
 			int opcao = new Scanner(System.in).nextInt();
 			
