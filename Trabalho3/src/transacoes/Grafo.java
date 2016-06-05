@@ -10,9 +10,10 @@ public class Grafo {
 	static String PROCESSO_EFETIVACAO = "PROCESSO_EFETIVACAO";
 	static String EFETIVADA = "EFETIVADA";
 	static String TR_FINALIZADA = "TR_FINALIZADA";
+	static String SUSPENSA = "SUSPENSA";
 	
 	public Vector<String> vertices;
-	private Vector<Transacao> transacoes;
+	private static Vector<Transacao> transacoes;
 
 	public Grafo() {
 		vertices = new Vector<String>();
@@ -27,6 +28,7 @@ public class Grafo {
 		vertices.addElement(PROCESSO_EFETIVACAO);
 		vertices.addElement(EFETIVADA);
 		vertices.addElement(TR_FINALIZADA);
+		vertices.addElement(SUSPENSA);
 	}
 	
 	public void criarTransacao(Transacao t) {
@@ -45,6 +47,7 @@ public class Grafo {
 		if (transacaoExiste(t.getId())) {
 			transacoes.remove(t);
 		}
+		int x = 1;
 	}
 	
 	public void transacoesAtivas() {
@@ -77,5 +80,13 @@ public class Grafo {
 			}
 		}
 		return false;
+	}
+	
+	public static void atualizaTransacao(String id){
+		for(int i=0;i<transacoes.size();i++){
+			if(transacoes.get(i).getId() == id){
+				transacoes.get(i).setEstado(Grafo.ATIVA);
+			}
+		}
 	}
 }

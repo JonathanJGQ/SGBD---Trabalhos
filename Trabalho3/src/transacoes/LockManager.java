@@ -19,6 +19,7 @@ public class LockManager {
 			//se o item está bloqueado exclusivamente...
 			ArrayList<String> espera = new ArrayList<String>();
 			espera.add(t.getId());
+			espera.add(item.getInfo());
 			espera.add("LS");
 			wq.adicionarItem(espera);
 			return false;
@@ -34,20 +35,22 @@ public class LockManager {
 			System.out.println("\nTransacao " + t.getId() + " está na fila de espera!");
 			return false;
 		}
-		if(!lt.checarBloqueioEscrita(item)){
+		if(!lt.checarBloqueioEscrita(t,item)){
 			//se o item está bloqueado...
 			ArrayList<String> espera = new ArrayList<String>();
 			espera.add(t.getId());
+			espera.add(item.getInfo());
 			espera.add("LX");
 			wq.adicionarItem(espera);
+			return false;
 		}
 		lt.adicionarBloqueio(t,item,"X");
 		return true;
 	}
 	
 	//apaga o bloqueio
-	public void U(Transacao t, Item item){
-			
+	public void U(Transacao t){
+		lt.liberarTransacao(t);
 	}
 
 }

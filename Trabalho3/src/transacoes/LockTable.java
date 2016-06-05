@@ -5,6 +5,7 @@ import java.util.List;
 
 public class LockTable {
 	public static ArrayList<ArrayList> lockTable = new ArrayList<ArrayList>();
+	public WaitQ wq;
 	
 	//ELEMENTOS DE CADA NÓ: [TRANSAÇÃO,ITEM,TIPO_BLOQUEIO]
 	
@@ -21,14 +22,19 @@ public class LockTable {
 		return achou;
 	}
 	
-	public boolean checarBloqueioEscrita(Item item){
+	public boolean checarBloqueioEscrita(Transacao t, Item item){
 		boolean achou = true;
 		ArrayList aux;
 		for(int i=0;i<lockTable.size();i++){
 			aux = lockTable.get(i);
 			if(item.getInfo().equals(aux.get(1).toString())){
-				System.out.println("Item bloqueado!");
-				achou = false;
+				if(t.getId() != aux.get(0)){
+					System.out.println("Item bloqueado!");
+					achou = false;
+				}
+				else{
+					lockTable.remove(aux);
+				}
 			}
 		}
 		return achou;
@@ -55,5 +61,16 @@ public class LockTable {
 			}
 		}
 		return true;
+	}
+	public void liberarTransacao(Transacao t){
+		ArrayList aux;
+		for(int i=0;i<lockTable.size();i++){
+			aux = lockTable.get(i);
+			if(t.getId() == aux.get(0)){
+				wq = new WaitQ();
+				wq.checarFilaEspera(aux);
+				lockTable.remove(aux);		
+			}
+		}
 	}
 }
